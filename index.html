@@ -16,7 +16,7 @@ html{scroll-behavior:smooth;}
 body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
 
 /* ============================================================
-   ECRAN INTRO CINEMATIQUE — ENTIEREMENT REPENSE
+   ECRAN INTRO CINEMATIQUE — IMAGE DE FOND
    ============================================================ */
 #cinematic-screen{
   position:fixed;inset:0;
@@ -35,192 +35,98 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
 .cinema-bar.bottom{bottom:0;}
 #cinematic-screen.opened .cinema-bar{height:0;}
 
-/* Fond parchemin qui apparaît */
-.cin-bg-parchment{
-  position:absolute;inset:80px;
-  background:radial-gradient(ellipse at 50% 40%,#FFFEF5 0%,#FFF6E0 45%,#EDD878 100%);
+/* IMAGE DE FOND — l'image uploadée couvre tout l'écran */
+.cin-bg-image{
+  position:absolute;inset:0;
+  background-image:url('envelope_bg.png');
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
   opacity:0;
-  transition:opacity 1.2s ease 0.4s;
-  border-radius:2px;
+  transition:opacity 1.4s ease 0.5s;
+  z-index:1;
 }
-#cinematic-screen.opened .cin-bg-parchment{opacity:1;}
+#cinematic-screen.opened .cin-bg-image{opacity:1;}
 
-/* Texture grain */
-.cin-bg-parchment::after{
-  content:'';position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events:none;
+/* Voile doré léger par-dessus pour l'atmosphère cinématique */
+.cin-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(10,6,0,0.18) 0%,
+    rgba(10,6,0,0.05) 30%,
+    rgba(10,6,0,0.05) 60%,
+    rgba(10,6,0,0.35) 100%
+  );
+  z-index:2;
+  opacity:0;
+  transition:opacity 1.2s ease 0.8s;
 }
+#cinematic-screen.opened .cin-overlay{opacity:1;}
 
-/* Rayons dorés */
+/* Rayons dorés subtils */
 .gold-rays{
   position:absolute;inset:0;
   background:conic-gradient(from 0deg at 50% 48%,
-    transparent 0deg,rgba(201,168,76,0.06) 8deg,transparent 16deg,
-    rgba(201,168,76,0.05) 24deg,transparent 32deg,
-    rgba(201,168,76,0.06) 40deg,transparent 48deg,
-    rgba(201,168,76,0.04) 56deg,transparent 64deg,
-    rgba(201,168,76,0.06) 72deg,transparent 80deg,
-    rgba(201,168,76,0.05) 88deg,transparent 96deg,
-    rgba(201,168,76,0.06) 104deg,transparent 112deg,
-    rgba(201,168,76,0.04) 120deg,transparent 128deg,
-    rgba(201,168,76,0.06) 136deg,transparent 144deg,
-    rgba(201,168,76,0.05) 152deg,transparent 160deg,
-    rgba(201,168,76,0.06) 168deg,transparent 176deg,
-    rgba(201,168,76,0.04) 184deg,transparent 192deg,
-    rgba(201,168,76,0.06) 200deg,transparent 208deg,
-    rgba(201,168,76,0.05) 216deg,transparent 224deg,
-    rgba(201,168,76,0.06) 232deg,transparent 240deg,
-    rgba(201,168,76,0.04) 248deg,transparent 256deg,
-    rgba(201,168,76,0.06) 264deg,transparent 272deg,
-    rgba(201,168,76,0.05) 280deg,transparent 288deg,
-    rgba(201,168,76,0.06) 296deg,transparent 304deg,
-    rgba(201,168,76,0.04) 312deg,transparent 320deg,
-    rgba(201,168,76,0.06) 328deg,transparent 336deg,
-    rgba(201,168,76,0.05) 344deg,transparent 360deg
+    transparent 0deg,rgba(201,168,76,0.04) 8deg,transparent 16deg,
+    rgba(201,168,76,0.03) 24deg,transparent 32deg,
+    rgba(201,168,76,0.04) 40deg,transparent 48deg,
+    rgba(201,168,76,0.03) 56deg,transparent 64deg,
+    rgba(201,168,76,0.04) 72deg,transparent 80deg,
+    rgba(201,168,76,0.03) 88deg,transparent 96deg,
+    rgba(201,168,76,0.04) 104deg,transparent 112deg,
+    rgba(201,168,76,0.03) 120deg,transparent 128deg,
+    rgba(201,168,76,0.04) 136deg,transparent 144deg,
+    rgba(201,168,76,0.03) 152deg,transparent 160deg,
+    rgba(201,168,76,0.04) 168deg,transparent 176deg,
+    rgba(201,168,76,0.03) 184deg,transparent 192deg,
+    rgba(201,168,76,0.04) 200deg,transparent 208deg,
+    rgba(201,168,76,0.03) 216deg,transparent 224deg,
+    rgba(201,168,76,0.04) 232deg,transparent 240deg,
+    rgba(201,168,76,0.03) 248deg,transparent 256deg,
+    rgba(201,168,76,0.04) 264deg,transparent 272deg,
+    rgba(201,168,76,0.03) 280deg,transparent 288deg,
+    rgba(201,168,76,0.04) 296deg,transparent 304deg,
+    rgba(201,168,76,0.03) 312deg,transparent 320deg,
+    rgba(201,168,76,0.04) 328deg,transparent 336deg,
+    rgba(201,168,76,0.03) 344deg,transparent 360deg
   );
   animation:raysRotate 90s linear infinite;
-  opacity:0;transition:opacity 1s ease 0.6s;
-  z-index:1;
+  opacity:0;transition:opacity 1s ease 1s;
+  z-index:3;
 }
 #cinematic-screen.opened .gold-rays{opacity:1;}
 @keyframes raysRotate{to{transform:rotate(360deg);}}
 
 /* Particules */
-.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2;}
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4;}
 .particle{position:absolute;border-radius:50%;animation:particleRise var(--dur,8s) ease-in infinite var(--del,0s);opacity:0;}
 @keyframes particleRise{
   0%{opacity:0;transform:translateY(0) scale(0);}
-  10%{opacity:0.9;transform:translateY(-20px) scale(1);}
-  90%{opacity:0.3;transform:translateY(-250px) scale(0.8);}
+  10%{opacity:0.8;transform:translateY(-20px) scale(1);}
+  90%{opacity:0.2;transform:translateY(-250px) scale(0.8);}
   100%{opacity:0;transform:translateY(-280px) scale(0);}
 }
 
-/* Contenu principal intro */
-.cinematic-content{
-  position:relative;z-index:10;
-  display:flex;flex-direction:column;align-items:center;
-  padding:0 24px;text-align:center;
-  width:100%;max-width:480px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s ease 1s, transform 1s ease 1s;
+/* Bouton CTA en bas — seul élément UI sur l'image */
+.cin-cta-zone{
+  position:absolute;
+  bottom:clamp(60px,12vh,100px);
+  left:0;right:0;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  z-index:10;
+  opacity:0;transform:translateY(16px);
+  transition:opacity 1s ease 1.4s, transform 1s ease 1.4s;
 }
-#cinematic-screen.opened .cinematic-content{opacity:1;transform:translateY(0);}
+#cinematic-screen.opened .cin-cta-zone{opacity:1;transform:translateY(0);}
 
-/* --- SECTION HAUT : bismillah + noms --- */
-.cin-top{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding-bottom:20px;
-  border-bottom:1px solid rgba(201,168,76,0.3);
-  width:100%;
-}
-.c-bismillah{
-  font-family:'EB Garamond',serif;
-  font-size:clamp(16px,4.5vw,22px);
-  color:var(--gold-dark);direction:rtl;
-  letter-spacing:1px;
-  text-shadow:0 2px 20px rgba(201,168,76,0.4);
-}
-.c-pretitle{
-  font-size:clamp(8px,2.2vw,10px);letter-spacing:6px;
-  color:rgba(139,105,20,0.8);text-transform:uppercase;
-  font-family:'Cinzel',serif;
-}
-.c-names{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(34px,10vw,54px);
-  color:var(--text-dark);line-height:1.0;font-weight:400;
-}
-.c-names em{
-  background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold-bright) 45%,var(--gold) 65%,var(--gold-dark) 100%);
-  background-size:200% auto;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shimmer 4s linear infinite;font-style:italic;display:block;
-}
-@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
-.c-ampersand{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(14px,3.5vw,18px);
-  font-style:italic;color:var(--gold);letter-spacing:6px;
-  display:block;margin:2px 0;
-}
-
-/* --- SEPARATEUR CENTRAL --- */
-.cin-divider{
-  display:flex;align-items:center;gap:12px;
-  width:100%;padding:16px 0;
-}
-.cin-div-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.5),transparent);}
-.cin-div-ornament{
-  color:var(--gold);font-size:16px;
-  text-shadow:0 0 12px rgba(201,168,76,0.5);
-}
-
-/* --- SECTION MILIEU : ENVELOPPE --- */
-.cin-envelope-zone{
-  display:flex;flex-direction:column;align-items:center;
-  gap:0;padding:0;width:100%;
-}
-
-/* Étiquette au-dessus */
-.env-label-top{
-  font-family:'Cinzel',serif;
-  font-size:clamp(7px,2vw,9px);
-  letter-spacing:5px;
-  color:rgba(139,105,20,0.6);
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
-
-/* Enveloppe */
-.envelope-scene{
-  position:relative;
-  width:clamp(200px,58vw,270px);
-  height:clamp(140px,41vw,190px);
-  filter:drop-shadow(0 20px 50px rgba(201,168,76,0.28)) drop-shadow(0 4px 14px rgba(0,0,0,0.12));
-  animation:envFloat 5s ease-in-out infinite;
-}
-@keyframes envFloat{
-  0%,100%{transform:translateY(0) rotate(-0.3deg);}
-  50%{transform:translateY(-10px) rotate(0.4deg);}
-}
-.env-svg{position:absolute;inset:0;width:100%;height:100%;}
-
-/* Cachet */
-.env-seal{
-  position:absolute;left:50%;top:28%;
-  transform:translate(-50%,0%);z-index:30;
-  width:clamp(52px,14vw,66px);height:clamp(52px,14vw,66px);
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 28%,#FFE090,#D4A020 55%,#8B6010 100%);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  box-shadow:0 0 0 2.5px #C9930A,0 0 0 5px rgba(201,168,76,0.22),0 5px 24px rgba(201,130,10,0.5);
-  transition:all 0.5s ease;cursor:pointer;
-  animation:sealGlow 3s ease-in-out infinite;
-}
-@keyframes sealGlow{
-  0%,100%{box-shadow:0 0 0 2.5px #C9930A,0 0 0 5px rgba(201,168,76,0.2),0 5px 24px rgba(201,130,10,0.45);}
-  50%{box-shadow:0 0 0 2.5px #C9930A,0 0 0 9px rgba(201,168,76,0.35),0 5px 36px rgba(201,130,10,0.6),0 0 60px rgba(201,168,76,0.18);}
-}
-.env-seal-text{font-size:7px;color:#3A1A00;font-family:'EB Garamond',serif;text-align:center;direction:rtl;line-height:1.4;}
-
-/* --- DATE sous l'enveloppe --- */
-.env-date-line{
-  font-family:'Cinzel',serif;
-  font-size:clamp(13px,3.5vw,17px);
-  font-weight:700;
-  letter-spacing:6px;
-  color:var(--gold-dark);
-  text-shadow:0 1px 10px rgba(139,105,20,0.2);
-  margin-top:10px;
-}
-
-/* --- CTA tap --- */
 .c-tap{
   font-size:clamp(10px,2.5vw,12px);
-  color:rgba(139,105,20,0.65);
-  letter-spacing:4px;font-style:italic;
+  color:rgba(255,240,200,0.75);
+  letter-spacing:5px;font-style:italic;
+  font-family:'Cinzel',serif;
+  text-shadow:0 1px 10px rgba(0,0,0,0.5);
   animation:tapBlink 2.5s ease-in-out infinite;
-  margin-top:4px;
 }
 @keyframes tapBlink{0%,100%{opacity:0.35;}50%{opacity:1;}}
 
@@ -247,6 +153,7 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
 .label-small{font-family:'Cinzel',serif;font-size:clamp(8px,2.5vw,10px);letter-spacing:5px;color:var(--text-light);text-transform:uppercase;text-align:center;margin:8px 0;}
 .main-names{font-family:'Playfair Display',serif;font-size:clamp(40px,13vw,56px);color:var(--text-dark);text-align:center;line-height:1.0;font-weight:400;margin:2px 0;}
 .main-names em{background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold-bright) 45%,var(--gold) 65%,var(--gold-dark) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;font-style:italic;}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
 .and-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--gold);letter-spacing:5px;text-align:center;margin:8px 0;}
 .romantic-verse{background:linear-gradient(135deg,#FFFDF5,#FFF8E0);border-left:2px solid var(--gold);border-right:2px solid rgba(201,168,76,0.2);border-top:1px solid rgba(201,168,76,0.15);border-bottom:1px solid rgba(201,168,76,0.15);border-radius:0 8px 8px 0;padding:22px 26px;margin:22px 0;text-align:center;position:relative;width:100%;}
 .romantic-verse::before{content:'\201C';font-family:'Playfair Display',serif;font-size:90px;color:rgba(201,168,76,0.1);position:absolute;top:-5px;left:8px;line-height:1;}
@@ -258,25 +165,8 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
 .event-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent);}
 .event-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.4),transparent);}
 
-/* DATE EN GRAS — classe globale */
-.date-bold{
-  font-family:'Cinzel',serif;
-  font-size:clamp(28px,9vw,42px);
-  color:var(--gold-dark);
-  font-weight:700;
-  letter-spacing:5px;
-  text-shadow:0 2px 12px rgba(139,105,20,0.2);
-}
-
-.event-date-big{
-  font-family:'Cinzel',serif;
-  font-size:clamp(30px,10vw,44px);
-  color:var(--gold-dark);
-  font-weight:700;
-  letter-spacing:4px;
-  margin-bottom:4px;
-  text-shadow:0 2px 12px rgba(139,105,20,0.18);
-}
+.date-bold{font-family:'Cinzel',serif;font-size:clamp(28px,9vw,42px);color:var(--gold-dark);font-weight:700;letter-spacing:5px;text-shadow:0 2px 12px rgba(139,105,20,0.2);}
+.event-date-big{font-family:'Cinzel',serif;font-size:clamp(30px,10vw,44px);color:var(--gold-dark);font-weight:700;letter-spacing:4px;margin-bottom:4px;text-shadow:0 2px 12px rgba(139,105,20,0.18);}
 .event-day{font-size:15px;font-style:italic;color:var(--text-mid);margin-bottom:18px;font-family:'Cormorant Garamond',serif;}
 .event-time{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:var(--text-dark);padding:10px 24px;border:1px solid rgba(201,168,76,0.5);border-radius:30px;display:inline-block;background:rgba(201,168,76,0.07);}
 .families-text{text-align:center;font-size:clamp(14px,4vw,16px);color:var(--text-mid);line-height:2.4;margin:22px 0;}
@@ -338,131 +228,24 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
 <nav class="nav-dots" id="navDots"></nav>
 
 <!-- ============================================================
-     ECRAN INTRO CINEMATIQUE
+     ECRAN INTRO CINEMATIQUE — IMAGE COMPLÈTE
      ============================================================ -->
 <div id="cinematic-screen" onclick="openEnvelope()">
   <div class="cinema-bar top"></div>
   <div class="cinema-bar bottom"></div>
-  <div class="cin-bg-parchment"></div>
+
+  <!-- L'image de l'invitation comme fond cinématique -->
+  <div class="cin-bg-image"></div>
+  <!-- Voile atmosphérique -->
+  <div class="cin-overlay"></div>
+  <!-- Rayons dorés subtils -->
   <div class="gold-rays"></div>
+  <!-- Particules flottantes -->
   <div class="particles" id="particles"></div>
 
-  <div class="cinematic-content">
-
-    <!-- BLOC HAUT : Bismillah + Noms -->
-    <div class="cin-top">
-      <div class="c-bismillah">&#1576;&#1616;&#1587;&#1618;&#1605;&#1616; &#1575;&#1604;&#1604;&#1617;&#1648;&#1607;&#1616; &#1575;&#1604;&#1585;&#1617;&#1614;&#1581;&#1618;&#1605;&#1614;&#1606;&#1616; &#1575;&#1604;&#1585;&#1617;&#1614;&#1581;&#1616;&#1610;&#1605;&#1616;</div>
-      <div class="c-pretitle">Invitation au Mariage</div>
-      <div class="c-names">
-        <em>Amineallah</em>
-        <span class="c-ampersand">&amp;</span>
-        <em>Minyar</em>
-      </div>
-    </div>
-
-    <!-- SÉPARATEUR -->
-    <div class="cin-divider">
-      <div class="cin-div-line"></div>
-      <div class="cin-div-ornament">&#10022;</div>
-      <div class="cin-div-line"></div>
-    </div>
-
-    <!-- BLOC MILIEU : Enveloppe seule -->
-    <div class="cin-envelope-zone">
-      <div class="env-label-top">Cliquez pour ouvrir votre invitation</div>
-
-      <div class="envelope-scene" id="envelopeScene">
-        <svg class="env-svg" id="envSvg" viewBox="0 0 300 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="envBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#FFFEF9"/>
-              <stop offset="50%" style="stop-color:#FFF6E4"/>
-              <stop offset="100%" style="stop-color:#F5E8C4"/>
-            </linearGradient>
-            <linearGradient id="envFlapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#FFFAE6"/>
-              <stop offset="100%" style="stop-color:#EDD880"/>
-            </linearGradient>
-            <linearGradient id="envFlapSheen" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:rgba(255,255,240,0.6)"/>
-              <stop offset="100%" style="stop-color:rgba(255,255,240,0.0)"/>
-            </linearGradient>
-            <filter id="envShadow" x="-5%" y="-5%" width="120%" height="130%">
-              <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="rgba(160,120,20,0.20)"/>
-            </filter>
-          </defs>
-          <ellipse cx="150" cy="208" rx="115" ry="5" fill="rgba(150,110,15,0.10)"/>
-          <rect x="2" y="58" width="296" height="148" rx="7" fill="url(#envBodyGrad)" stroke="#C9A84C" stroke-width="1.3" filter="url(#envShadow)"/>
-          <rect x="9"  y="65"  width="282" height="134" rx="5" fill="none" stroke="rgba(201,168,76,0.40)" stroke-width="0.9"/>
-          <rect x="15" y="71"  width="270" height="122" rx="3" fill="none" stroke="rgba(201,168,76,0.20)" stroke-width="0.5"/>
-          <polygon points="2,58  2,206  97,132"  fill="rgba(201,168,76,0.08)"/>
-          <polygon points="298,58 298,206 203,132" fill="rgba(201,168,76,0.08)"/>
-          <polygon points="2,206 298,206 150,130" fill="rgba(201,168,76,0.05)"/>
-          <line x1="2"   y1="206" x2="150" y2="130" stroke="rgba(201,168,76,0.28)" stroke-width="0.9"/>
-          <line x1="298" y1="206" x2="150" y2="130" stroke="rgba(201,168,76,0.28)" stroke-width="0.9"/>
-          <g transform="translate(24,78)">
-            <circle r="2.2" fill="#C9A84C" opacity="0.55"/>
-            <line x1="-5" y1="0" x2="5" y2="0" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <line x1="0" y1="-5" x2="0" y2="5" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <circle cx="7" cy="0" r="1.1" fill="#C9A84C" opacity="0.3"/>
-            <circle cx="0" cy="7" r="1.1" fill="#C9A84C" opacity="0.3"/>
-          </g>
-          <g transform="translate(276,78)">
-            <circle r="2.2" fill="#C9A84C" opacity="0.55"/>
-            <line x1="-5" y1="0" x2="5" y2="0" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <line x1="0" y1="-5" x2="0" y2="5" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <circle cx="-7" cy="0" r="1.1" fill="#C9A84C" opacity="0.3"/>
-            <circle cx="0" cy="7" r="1.1" fill="#C9A84C" opacity="0.3"/>
-          </g>
-          <g transform="translate(24,194)">
-            <circle r="2.2" fill="#C9A84C" opacity="0.55"/>
-            <line x1="-5" y1="0" x2="5" y2="0" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <line x1="0" y1="-5" x2="0" y2="5" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <circle cx="7" cy="0" r="1.1" fill="#C9A84C" opacity="0.3"/>
-            <circle cx="0" cy="-7" r="1.1" fill="#C9A84C" opacity="0.3"/>
-          </g>
-          <g transform="translate(276,194)">
-            <circle r="2.2" fill="#C9A84C" opacity="0.55"/>
-            <line x1="-5" y1="0" x2="5" y2="0" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <line x1="0" y1="-5" x2="0" y2="5" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
-            <circle cx="-7" cy="0" r="1.1" fill="#C9A84C" opacity="0.3"/>
-            <circle cx="0" cy="-7" r="1.1" fill="#C9A84C" opacity="0.3"/>
-          </g>
-          <text x="60"  y="110" font-size="7" fill="rgba(201,168,76,0.32)" text-anchor="middle" font-family="Georgia,serif">&#10022;</text>
-          <text x="240" y="110" font-size="7" fill="rgba(201,168,76,0.32)" text-anchor="middle" font-family="Georgia,serif">&#10022;</text>
-          <text x="60"  y="178" font-size="7" fill="rgba(201,168,76,0.32)" text-anchor="middle" font-family="Georgia,serif">&#10022;</text>
-          <text x="240" y="178" font-size="7" fill="rgba(201,168,76,0.32)" text-anchor="middle" font-family="Georgia,serif">&#10022;</text>
-          <path d="M110,165 Q130,155 150,165 Q170,175 190,165" fill="none" stroke="rgba(201,168,76,0.30)" stroke-width="0.9"/>
-          <path d="M118,172 Q134,163 150,172 Q166,181 182,172" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.6"/>
-          <line x1="22" y1="132" x2="278" y2="132" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" stroke-dasharray="3,6"/>
-          <g id="flapGroup" style="transform-origin:150px 58px;transition:transform 0.9s cubic-bezier(0.4,0,0.2,1);">
-            <polygon points="2,58 298,58 150,162" fill="url(#envFlapGrad)" stroke="#C9A84C" stroke-width="1.3"/>
-            <polygon points="28,60 272,60 150,144" fill="url(#envFlapSheen)"/>
-            <polygon points="18,60 282,60 150,152" fill="none" stroke="rgba(201,168,76,0.32)" stroke-width="0.7"/>
-            <path d="M150 78 L159 90 L150 102 L141 90 Z" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.60)" stroke-width="1.0"/>
-            <line x1="150" y1="78" x2="150" y2="102" stroke="rgba(201,168,76,0.38)" stroke-width="0.5"/>
-            <line x1="141" y1="90"  x2="159" y2="90"  stroke="rgba(201,168,76,0.38)" stroke-width="0.5"/>
-            <circle cx="150" cy="74" r="1.5" fill="rgba(201,168,76,0.45)"/>
-            <circle cx="163" cy="90" r="1.5" fill="rgba(201,168,76,0.45)"/>
-            <circle cx="150" cy="106" r="1.5" fill="rgba(201,168,76,0.45)"/>
-            <circle cx="137" cy="90" r="1.5" fill="rgba(201,168,76,0.45)"/>
-            <circle cx="95"  cy="78" r="1.3" fill="rgba(201,168,76,0.38)"/>
-            <circle cx="205" cy="78" r="1.3" fill="rgba(201,168,76,0.38)"/>
-            <circle cx="75"  cy="92" r="0.9" fill="rgba(201,168,76,0.28)"/>
-            <circle cx="225" cy="92" r="0.9" fill="rgba(201,168,76,0.28)"/>
-            <line x1="2" y1="58" x2="298" y2="58" stroke="rgba(201,168,76,0.55)" stroke-width="0.9"/>
-          </g>
-        </svg>
-        <div class="env-seal" id="envSeal">
-          <div class="env-seal-text">&#1576;&#1616;&#1587;&#1618;&#1605;&#1616; &#1575;&#1604;&#1604;&#1617;&#1648;&#1607;<br><span style="font-size:6.5px;">&#1575;&#1604;&#1585;&#1617;&#1614;&#1581;&#1618;&#1605;&#1614;&#1606;&#1616; &#1575;&#1604;&#1585;&#1617;&#1614;&#1581;&#1616;&#1610;&#1605;&#1616;</span></div>
-        </div>
-      </div>
-
-      <!-- Date bien visible sous l'enveloppe -->
-      <div class="env-date-line">01 &middot; 08 &middot; 2026</div>
-      <div class="c-tap">&#10022; Appuyez pour ouvrir &#10022;</div>
-    </div>
-
+  <!-- CTA en bas de l'image -->
+  <div class="cin-cta-zone">
+    <div class="c-tap">&#10022; Appuyez pour ouvrir &#10022;</div>
   </div>
 </div>
 
@@ -501,7 +284,6 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
       <div class="and-text reveal">&amp;</div>
       <div class="main-names reveal"><em>Minyar</em></div>
       <div class="gold-divider reveal" style="margin-top:22px;"><div class="gdiv-line"></div><div class="gdiv-gem">&#10023;</div><div class="gdiv-line"></div></div>
-      <!-- Date en gras page 1 -->
       <div class="date-bold reveal" style="margin:8px 0;">01 &middot; 08 &middot; 2026</div>
       <div class="romantic-verse reveal">
         <p>Avec la gr&acirc;ce de Dieu et la joie dans nos c&oelig;urs,<br>nous avons l&rsquo;honneur et le bonheur<br>de vous convier &agrave; partager<br>la plus belle page de notre histoire</p>
@@ -592,7 +374,6 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
       <div class="blessing-fr reveal">Que Dieu les b&eacute;nisse,<br>r&eacute;pande Ses gr&acirc;ces sur eux<br>et les unisse dans le bien.</div>
       <div class="gold-divider reveal" style="margin:22px 0;"><div class="gdiv-line"></div><div class="gdiv-gem">&#10023;</div><div class="gdiv-line"></div></div>
       <div class="final-names reveal">Amineallah &amp; Minyar</div>
-      <!-- Date finale en gras -->
       <div class="final-date reveal" style="margin-top:8px;">01 &middot; 08 &middot; 2026</div>
       <div class="gold-divider reveal" style="margin:22px 0;"><div class="gdiv-line"></div><div class="gdiv-gem">&#10022;</div><div class="gdiv-line"></div></div>
       <div style="text-align:center;font-size:10px;letter-spacing:3px;color:rgba(139,105,20,0.5);font-family:'Cinzel',serif;text-transform:uppercase;" class="reveal">Dar Bouraoui &middot; Carthage &middot; Tunisie</div>
@@ -606,10 +387,10 @@ body{background:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:h
 <script>
 // Particules
 const pCont=document.getElementById('particles');
-for(let i=0;i<60;i++){
+for(let i=0;i<50;i++){
   const p=document.createElement('div');p.className='particle';
-  const s=Math.random()*3+1,g=Math.random()>.5?'#C9A84C':'#F0D080';
-  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*30}%;background:${g};--dur:${6+Math.random()*10}s;--del:${Math.random()*8}s;`;
+  const s=Math.random()*2.5+1,g=Math.random()>.5?'rgba(201,168,76,0.7)':'rgba(240,208,128,0.6)';
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;background:${g};--dur:${7+Math.random()*10}s;--del:${Math.random()*8}s;`;
   pCont.appendChild(p);
 }
 
@@ -646,22 +427,23 @@ let opened=false;
 function openEnvelope(){
   if(opened)return;opened=true;
   const m=document.getElementById('bgMusic');m.volume=0.6;m.play().catch(e=>console.log(e));
-  const f=document.getElementById('flapGroup'),s=document.getElementById('envSeal');
-  f.style.transform='rotateX(-175deg)';
-  s.style.transform='translate(-50%,0%) scale(0) rotate(90deg)';s.style.opacity='0';s.style.transition='all 0.5s ease';
+
+  // Animation de fermeture cinématique
+  const sc=document.getElementById('cinematic-screen');
+  // Flash blanc léger puis fade
+  sc.style.transition='opacity 1.4s ease,transform 1.4s ease';
+  sc.style.opacity='0';
+  sc.style.transform='scale(1.06)';
+
   setTimeout(()=>{
-    const sc=document.getElementById('cinematic-screen');
-    sc.style.transition='opacity 1.3s ease,transform 1.3s ease';sc.style.opacity='0';sc.style.transform='scale(1.04)';
+    sc.style.display='none';
+    const inv=document.getElementById('main-invitation');inv.style.display='block';
     setTimeout(()=>{
-      sc.style.display='none';
-      const inv=document.getElementById('main-invitation');inv.style.display='block';
-      setTimeout(()=>{
-        inv.classList.add('visible');
-        document.getElementById('music-toggle').style.display='flex';
-        setupNavDots();setupScrollReveal();
-      },50);
-    },1300);
-  },600);
+      inv.classList.add('visible');
+      document.getElementById('music-toggle').style.display='flex';
+      setupNavDots();setupScrollReveal();
+    },50);
+  },1400);
 }
 
 function backToEnvelope(){
@@ -672,8 +454,6 @@ function backToEnvelope(){
     inv.style.display='none';inv.classList.remove('visible');opened=false;window.scrollTo(0,0);
     const sc=document.getElementById('cinematic-screen');
     sc.style.display='flex';sc.style.opacity='0';sc.style.transform='scale(0.96)';
-    const f=document.getElementById('flapGroup');f.style.transition='none';f.style.transform='';
-    const s=document.getElementById('envSeal');s.style.opacity='1';s.style.transform='translate(-50%,0%) scale(1) rotate(0)';
     setTimeout(()=>{sc.style.transition='opacity 1s ease,transform 1s ease';sc.style.opacity='1';sc.style.transform='scale(1)';},50);
   },700);
 }
